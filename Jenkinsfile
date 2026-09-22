@@ -24,16 +24,21 @@ pipeline {
             }
         }
 
+
         stage('Test') {
             steps {
-                echo 'Installing test dependencies'
-                sh 'python3 -m pip install --user -r requirements.txt'
+                echo 'Creating Python virtual environment'
 
-                echo 'Running automated tests'
-                sh 'python3 -m pytest'
-           }
-        }
+             	sh '''
+                    python3 -m venv venv
+                    ./venv/bin/pip install --upgrade pip
+                    ./venv/bin/pip install -r requirements.txt
 
+                echo "Running automated tests"
+                    ./venv/bin/pytest
+                 '''
+             }
+         }
         stage('Package') {
             steps {
                 echo 'Building Docker image'
