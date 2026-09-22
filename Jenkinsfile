@@ -26,9 +26,12 @@ pipeline {
 
         stage('Test') {
             steps {
+                echo 'Installing test dependencies'
+                sh 'python3 -m pip install --user -r requirements.txt'
+
                 echo 'Running automated tests'
                 sh 'python3 -m pytest'
-            }
+           }
         }
 
         stage('Package') {
